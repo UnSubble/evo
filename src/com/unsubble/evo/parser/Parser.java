@@ -34,36 +34,5 @@ public class Parser {
         return token;
     }
 
-    public AstNode parseTypeDef() {
-        expect(TokenType.TYPE);
 
-        String name = expect(TokenType.IDENTIFIER).value();
-        expect(TokenType.LPAREN);
-
-        int totalSize = 0;
-        Map<String, Twin<Integer>> fields = new LinkedHashMap<>();
-
-        while (peek().type() != TokenType.RPAREN) {
-            int size = Integer.parseInt(expect(TokenType.NUMBER).value());
-
-            if (peek().type() == TokenType.COLON) {
-                consume();
-                String fieldName = expect(TokenType.IDENTIFIER).value();
-                fields.put(fieldName, new Twin<>(totalSize, totalSize + size));
-            }
-
-            totalSize += size;
-
-            if (peek().type() == TokenType.COMMA) {
-                consume();
-            } else {
-                break;
-            }
-        }
-
-        expect(TokenType.RPAREN);
-        expect(TokenType.SEMICOLON);
-
-        return new TypeDefNode(name, fields, totalSize);
-    }
 }

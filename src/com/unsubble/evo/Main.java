@@ -13,17 +13,17 @@ public class Main {
     public static void main(String[] args) {
         Holder<List<Token>> holder = new DummyHolder();
         Status status = new Lexer("""
-                type MyDef(4, 8: a, 4);""").lex(holder);
+                ;;;""").lex(holder);
         Parser parser = new Parser(holder.get());
         List<Token> tokens = holder.release();
+        System.out.println(tokens);
         AstNode node = parser.parseTypeDef();
-        System.out.println(node);
     }
 }
 
 class DummyHolder implements Holder<List<Token>> {
-    protected List<Token> list;
 
+    protected List<Token> list;
 
     @Override
     public void hold(List<Token> obj) {

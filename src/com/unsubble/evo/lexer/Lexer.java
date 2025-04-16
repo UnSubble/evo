@@ -56,6 +56,11 @@ public class Lexer {
         }
 
         Token token = toToken(builder.toString());
+        if (isAddable(token.type(), lastType)) {
+            Token last = tokens.removeLast();
+            token = tokenizeAndClear(builder.insert(0, last.value()));
+        }
+
         tokens.add(token);
         tokens.add(new Token(TokenType.EOF, TokenType.EOF.getType()));
         holder.hold(tokens);
@@ -71,7 +76,7 @@ public class Lexer {
     private boolean isAddable(TokenType type, TokenType lastType) {
         return (TokenType.IDENTIFIER == type || TokenType.NUMBER == type) &&
                 (TokenType.IDENTIFIER == lastType || TokenType.NUMBER == lastType) ||
-                lastType == type && type.getType().matches("^\\W+$");
+                lastType == type && type.getType().matches("^[&/<>=|]+$");
     }
 
     public Token toToken(String tokenStr) {
