@@ -11,6 +11,7 @@ import com.unsubble.evo.token.Token;
 import java.util.*;
 
 public class TypeDefFsm implements NodeFsm {
+
     @Override
     public boolean matches(List<Token> tokens, int index) {
         return tokens.get(index).type() == TokenType.TYPE;

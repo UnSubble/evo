@@ -35,6 +35,15 @@ public class TokenStream {
         return peek().type() == type;
     }
 
+    public boolean match(TokenType... types) {
+        for (TokenType type : types) {
+            if (type == peek().type()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public int currentIndex() {
         return index;
     }

@@ -4,7 +4,7 @@ import com.unsubble.evo.ast.AstNode;
 import com.unsubble.evo.ast.NodeFsm;
 import com.unsubble.evo.ast.node.FunctionNode;
 import com.unsubble.evo.ast.node.ReturnNode;
-import com.unsubble.evo.ast.node.ExprNode;
+import com.unsubble.evo.parser.ExprParser;
 import com.unsubble.evo.parser.ParseResult;
 import com.unsubble.evo.token.*;
 
@@ -38,10 +38,11 @@ public class FunctionFsm implements NodeFsm {
         stream.expect(TokenType.LBRACE);
 
         List<AstNode> body = new ArrayList<>();
+        ExprParser exprParser = new ExprParser(stream);
         while (!stream.match(TokenType.RBRACE)) {
             if (stream.match(TokenType.RETURN)) {
                 stream.consume();
-                AstNode expr = new ExprNode("dummy_expr"); // TODO
+                AstNode expr = exprParser.parse();
                 stream.expect(TokenType.SEMICOLON);
                 body.add(new ReturnNode(expr));
             } else {
