@@ -1,38 +1,48 @@
 package com.unsubble.evo.parser;
 
-import com.unsubble.evo.ast.node.TypeDefNode;
-import com.unsubble.evo.common.Twin;
+import com.unsubble.evo.ast.fsm.FunctionFsm;
+import com.unsubble.evo.ast.fsm.TypeDefFsm;
 import com.unsubble.evo.token.Token;
-import com.unsubble.evo.token.TokenType;
 import com.unsubble.evo.ast.*;
+import com.unsubble.evo.token.TokenType;
 
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Parser {
-    private final List<Token> tokens;
-    private int index = 0;
+    private final List<NodeFsm> fsms;
 
-    public Parser(List<Token> tokens) {
-        this.tokens = tokens;
+    public Parser() {
+        fsms = List.of(
+                new TypeDefFsm(),
+                new FunctionFsm()
+        );
     }
 
-    private Token peek() {
-        return tokens.get(index);
-    }
+    public List<AstNode> parse(List<Token> tokens) {
+        List<AstNode> result = new ArrayList<>();
+        int index = 0;
 
-    private Token consume() {
-        return tokens.get(index++);
-    }
+        while (index < tokens.size()) {
+            boolean matched = false;
 
-    private Token expect(TokenType type) {
-        Token token = consume();
-        if (token.type() != type) {
-            throw new RuntimeException("Expected: " + type + ", actual: " + token.type());
+            for (NodeFsm fsm : fsms) {
+                if (fsm.matches(tokens, index)) {
+                    ParseResult parsed = fsm.parse(tokens, index);
+                    result.add(parsed.node());
+                    index = parsed.nextIndex();
+                    matched = true;
+                    break;
+                }
+            }
+
+            if (!matched) {
+                if (tokens.get(index).type() == TokenType.EOF)
+                    return result;
+                throw new RuntimeException("Undefined syntax, token: " + tokens.get(index));
+            }
         }
-        return token;
+
+        throw new RuntimeException("The token of EOF is not reachable!");
     }
-
-
 }

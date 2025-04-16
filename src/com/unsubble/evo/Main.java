@@ -13,11 +13,14 @@ public class Main {
     public static void main(String[] args) {
         Holder<List<Token>> holder = new DummyHolder();
         Status status = new Lexer("""
-                ;;;""").lex(holder);
-        Parser parser = new Parser(holder.get());
+                function test(a, b) {
+                    return 65 + 12 - 6 * ((4 - 4) + 2);
+                }""").lex(holder);
+        Parser parser = new Parser();
         List<Token> tokens = holder.release();
         System.out.println(tokens);
-        AstNode node = parser.parseTypeDef();
+        List<AstNode> nodes = parser.parse(tokens);
+        System.out.println(nodes);
     }
 }
 
