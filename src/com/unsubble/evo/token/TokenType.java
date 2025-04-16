@@ -14,34 +14,34 @@ public enum TokenType {
     ELSE("else"),
     FOR("for"),
 
-    LPAREN("("),     // (
-    RPAREN(")"),     // )
-    LBRACE("{"),     // {
-    RBRACE("}"),     // }
-    COMMA(","),      // ,
-    COLON(":"),      // :
-    DOT("."),        // .
-    SEMICOLON(";"),  // ;
-    ASSIGN("="),     // =
+    LPAREN("("),     
+    RPAREN(")"),     
+    LBRACE("{"),     
+    RBRACE("}"),     
+    COMMA(","),      
+    COLON(":"),      
+    DOT("."),        
+    SEMICOLON(";"),  
+    ASSIGN("="),     
 
-    PLUS("+"),       // +
-    MINUS("-"),      // -
-    STAR("*"),       // *
-    SLASH("/"),      // /
-    MOD("%"),        // %
+    PLUS("+"),       
+    MINUS("-"),      
+    STAR("*"),       
+    SLASH("/"),      
+    MOD("%"),        
 
-    EQUAL("=="),      // ==
-    NOT_EQUAL("!="),  // !=
-    LT("<"),         // <
-    GT(">"),         // >
-    LTE("<="),        // <=
-    GTE(">="),        // >=
+    EQUAL("=="),      
+    NOT_EQUAL("!="),  
+    LT("<"),         
+    GT(">"),         
+    LTE("<="),        
+    GTE(">="),        
 
-    AND("&&"),        // &&
-    OR("||"),         // ||
-    NOT("!"),        // !
+    AND("&&"),        
+    OR("||"),         
+    NOT("!"),        
 
-    BITWISE_AND("&"),
+    BITWISE_AND("&"), 
     BITWISE_OR("|"),
     BITWISE_NOT("~"),
     BITWISE_XOR("^"),

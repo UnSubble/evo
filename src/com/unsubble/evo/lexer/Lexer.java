@@ -29,25 +29,32 @@ public class Lexer {
         } else {
             tokens = new LinkedList<>();
         }
+
         StringBuilder builder = new StringBuilder();
         TokenType lastType = TokenType.EOF;
+
         while (index < src.length()) {
             char c = src.charAt(index);
+
             if (!noEscapeMode && !builder.isEmpty()) {
                 Token token = toToken(builder.toString());
+
                 if (isAddable(token.type(), lastType)) {
                     Token last = tokens.removeLast();
                     token = tokenizeAndClear(builder.insert(0, last.value()));
                 } else {
                     builder.setLength(0);
                 }
+
                 tokens.add(token);
                 lastType = token.type();
             }
+
             if (noEscapeMode || !Character.isWhitespace(c))
                 builder.append(c);
             index++;
         }
+
         Token token = toToken(builder.toString());
         tokens.add(token);
         tokens.add(new Token(TokenType.EOF, TokenType.EOF.getType()));
